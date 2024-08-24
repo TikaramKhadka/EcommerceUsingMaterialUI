@@ -120,15 +120,17 @@ const Register = () => {
                 error={errors.email}
                 helperText={errors.email ? 'Please enter a valid email address' : ''}
               />
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
+              <LocalizationProvider   className='w-full'  dateAdapter={AdapterDayjs}>
+                <DatePicker                
                   label="Date of Birth"
+                   className='w-full'
                   value={birthdate}
                   onChange={handleBirthdateChange}
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      fullWidth
+                      className='w-full'                   
+                      fullWidth 
                       margin="normal"
                       error={errors.birthdate}
                       helperText={errors.birthdate ? 'Please select a date' : ''}
