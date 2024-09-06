@@ -135,7 +135,7 @@ const Register = () => {
                       error={errors.birthdate}
                       helperText={errors.birthdate ? 'Please select a date' : ''}
                     />
-                  )}
+                  )}                
                 />
               </LocalizationProvider>
               <TextField
