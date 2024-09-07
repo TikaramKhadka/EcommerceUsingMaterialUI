@@ -36,7 +36,9 @@ const Sidebar = () => {
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
+          <Link href="/dashboard" dashHref>
           <ListItemText primary="Dashboard" />
+          </Link>          
           <IconButton
             className={`ml-auto ${collapsed ? 'bg-blue-500 text-white' : 'bg-blue-100'} p-1`}
           >

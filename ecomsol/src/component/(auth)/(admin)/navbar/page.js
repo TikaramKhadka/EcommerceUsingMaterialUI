@@ -58,7 +58,7 @@ const TopNavbar = () => {
           <IconButton edge="end" onClick={handleMenu} color="inherit" style={{ marginLeft: '16px' }}>
             <Avatar alt="User Photo" src="/static/images/avatar/1.jpg" />
             <Typography variant="body1" style={{ marginLeft: '10px' }}>
-              John Doe
+              Tikaram Khadka
             </Typography>
           </IconButton>
           <Menu
