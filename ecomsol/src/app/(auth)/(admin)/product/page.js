@@ -6,6 +6,7 @@ import AddIcon from '@mui/icons-material/Add'; // Import the Add icon
 import EditIcon from '@mui/icons-material/Edit'; // Import the Edit icon
 import DeleteIcon from '@mui/icons-material/Delete'; // Import the Delete icon
 import VisibilityIcon from '@mui/icons-material/Visibility'; // Import the View icon
+import AirplanemodeInactiveIcon from '@mui/icons-material/AirplanemodeInactive';
 
 const ProductDataTable = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -108,17 +109,21 @@ const ProductDataTable = () => {
                   anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                   transformOrigin={{ vertical: 'top', horizontal: 'center' }}
                 >
+                  <MenuItem onClick={handleView}>
+                    <VisibilityIcon fontSize="small" style={{ marginRight: '10px' }} />
+                    View
+                  </MenuItem>
                   <MenuItem onClick={handleEdit}>
                     <EditIcon fontSize="small" style={{ marginRight: '10px' }} />
-                    Edit
+                    Update
                   </MenuItem>
                   <MenuItem onClick={handleDelete}>
                     <DeleteIcon fontSize="small" style={{ marginRight: '10px' }} />
                     Delete
-                  </MenuItem>
+                  </MenuItem>              
                   <MenuItem onClick={handleView}>
-                    <VisibilityIcon fontSize="small" style={{ marginRight: '10px' }} />
-                    View
+                    <AirplanemodeInactiveIcon fontSize="small" style={{ marginRight: '10px' }} />
+                    Change Status
                   </MenuItem>
                 </Menu>
               </TableCell>

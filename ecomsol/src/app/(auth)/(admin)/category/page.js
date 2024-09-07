@@ -1,11 +1,12 @@
 'use client'
 import React, { useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Box, Typography, IconButton, Menu, MenuItem } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Box, Typography, IconButton, Menu, MenuItem, Link } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AddIcon from '@mui/icons-material/Add'; // Import the Add icon
 import EditIcon from '@mui/icons-material/Edit'; // Import the Edit icon
 import DeleteIcon from '@mui/icons-material/Delete'; // Import the Delete icon
 import VisibilityIcon from '@mui/icons-material/Visibility'; // Import the View icon
+
 
 const CategoriesDataTable = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -40,17 +41,19 @@ const CategoriesDataTable = () => {
     <div>
       {/* Container for title and button */}
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-        <Typography className='font-bold' variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Category List
-        </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<AddIcon />} // Use the Add icon here
-        >
-          Add Category
-        </Button>
-      </Box>
+  <Typography className='font-bold' variant="h6" component="div" sx={{ flexGrow: 1 }}>
+    Category List
+  </Typography>
+  <Link href="/category/addcategory" underline="none">
+    <Button
+      variant="contained"
+      color="primary"
+      startIcon={<AddIcon />} // Use the Add icon here
+    >
+      Add Category
+    </Button>
+  </Link>
+</Box>
 
       <TableContainer component={Paper}>
         <Table>
