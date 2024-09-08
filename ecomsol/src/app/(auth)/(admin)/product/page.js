@@ -102,7 +102,7 @@ const ProductDataTable = () => {
                   <IconButton onClick={(event) => handleClick(event, item)}>
                     <MoreVertIcon /> {/* Use the MoreVert icon here */}
                   </IconButton>
-                  <Menu
+                  <Menu className='shadow-sm'
                     anchorEl={anchorEl}
                     open={Boolean(anchorEl)}
                     onClose={handleClose}

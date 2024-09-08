@@ -11,7 +11,7 @@ const SummaryData = () => {
   const data = [
     {
       title: 'Sales',
-      count: '$12,000',
+      count: 'Rs 12,0000',
       icon: <AttachMoneyIcon />,
       color: '#4caf50',
     },
@@ -39,7 +39,7 @@ const SummaryData = () => {
       {data.map((item, index) => (
         <Grid item xs={12} sm={6} md={3} key={index}>
           <Card sx={{ display: 'flex', alignItems: 'center', padding: 1, boxShadow: 3 }}>
-            <Avatar sx={{ backgroundColor: item.color, marginRight: 2 }}>
+            <Avatar sx={{ backgroundColor: item.color, marginRight: 2, marginLeft:2 }}>
               {item.icon}
             </Avatar>
             <CardContent>

@@ -9,24 +9,24 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const CategoriesDataTable = () => {
-  const [categories, setCategories] = useState([]);
+const UserDataTable = () => {
+  const [users, setUsers] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedId, setSelectedId] = useState(null); // Track the selected category
 
-  // Fetch categories data when the component mounts
-  const fetchCategories = async () => {
+  // Fetch users data when the component mounts
+  const fetchUsers = async () => {
     try {
-      const response = await axios.get('https://api.escuelajs.co/api/v1/categories');
-      setCategories(response.data);
+      const response = await axios.get('https://api.escuelajs.co/api/v1/users');
+      setUsers(response.data);
     } catch (error) {
-      console.error('Error fetching categories:', error);
-      toast.error('Failed to fetch categories');
+      console.error('Error fetching users:', error);
+      toast.error('Failed to fetch users');
     }
   };
 
   useEffect(() => {
-    fetchCategories();
+    fetchUsers();
   }, []);
 
   const handleClick = (event, id) => {
@@ -41,12 +41,13 @@ const CategoriesDataTable = () => {
 
   const handleEdit = async (id) => {
     try {
-      const { data } = await axios.put(`https://api.escuelajs.co/api/v1/categories/${id}`);
-      toast.success('Category updated successfully');
+      const { data } = await axios.put(`https://api.escuelajs.co/api/v1/users/${id}`);
+      toast.success('User updated successfully');
     } catch (error) {
-      console.error('Error updating category:', error);
-      toast.error('Failed to update category');
+      console.error('Error updating users:', error);
+      toast.error('Failed to update users');
     } finally {
+      fetchUsers();
       handleClose();
     }
   };
@@ -54,26 +55,27 @@ const CategoriesDataTable = () => {
   const handleDelete = async (id) => {
     try {    
       debugger  
-      await axios.delete(`https://api.escuelajs.co/api/v1/categories/${id}`);
-      toast.success('Category deleted successfully');
-      fetchCategories(); // Refresh categories after deletion
+      await axios.delete(`https://api.escuelajs.co/api/v1/users/${id}`);
+      toast.success('User deleted successfully');
+      fetchUsers(); // Refresh users after deletion
     } catch (error) {
-      console.error('Error deleting category:', error);
-      toast.error('Failed to delete category');
+      console.error('Error deleting users:', error);
+      toast.error('Failed to delete users');
     } finally {      
+      fetchUsers();
       handleClose();
-      fetchCategories();
     }
   };
 
   const handleView = async (id) => {
     try {
-      const { data } = await axios.get(`https://api.escuelajs.co/api/v1/categories/${id}`);
-      console.log('Category details:', data);     
+      const { data } = await axios.get(`https://api.escuelajs.co/api/v1/users/${id}`);
+      console.log('User details:', data);     
     } catch (error) {
-      console.error('Error viewing category:', error);
-      toast.error('Failed to view category');
+      console.error('Error viewing users:', error);
+      toast.error('Failed to view users');
     } finally {
+      fetchUsers()
       handleClose();
     }
   };
@@ -81,11 +83,11 @@ const CategoriesDataTable = () => {
     <div>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={3} mt={2}>
         <Typography className="font-bold" variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Category List
+          User List
         </Typography>
         <Link href="/category/addcategory" underline="none">
           <Button variant="contained" color="primary" startIcon={<AddIcon />}>
-            Add Category
+            Add User
           </Button>
         </Link>
       </Box>
@@ -95,14 +97,14 @@ const CategoriesDataTable = () => {
           <TableHead>
             <TableRow style={{ backgroundColor: '#1976d2' }}>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>SN</TableCell>
-              <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Category Name</TableCell>
+              <TableCell style={{ color: 'white', fontWeight: 'bold' }}>User Name</TableCell>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Status</TableCell>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Created Date</TableCell>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {categories.map((item, index) => (
+            {users.map((item, index) => (
               <TableRow key={item.id}>
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{item.name}</TableCell>
@@ -143,4 +145,4 @@ const CategoriesDataTable = () => {
   );
 };
 
-export default CategoriesDataTable;
+export default UserDataTable;

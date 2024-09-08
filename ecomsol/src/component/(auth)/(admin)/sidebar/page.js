@@ -75,7 +75,7 @@ const Sidebar = () => {
           <ListItemIcon>
             <PeopleIcon />
           </ListItemIcon>
-          <Link href="/users" passHref>
+          <Link href="/user" userHref>
             <ListItemText primary="Users" />
           </Link>
         </ListItem>

@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { Card, CardActions, CardContent, TextField, Button, Grid } from '@mui/material';
 import React from 'react';
+import toast from 'react-hot-toast';
+import axios from 'axios';
 
 const AddCategory = () => {
   // State for managing input values and errors
@@ -39,7 +41,7 @@ const AddCategory = () => {
   };
 
   // Handler for form submission
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const categorynameError = categoryname.trim() === '';
     const brandnameError = brandname.trim() === '';
     const descriptionError = description.trim() === '';
@@ -50,9 +52,24 @@ const AddCategory = () => {
       description: descriptionError,
     };
     setErrors(newErrors);
-
     if (!categorynameError && !brandnameError && !descriptionError) {
-      console.log('Category added successfully!');
+      try {
+        debugger
+         const values = {
+          name: categoryname,
+          brandname:brandname,
+          description:description,         
+        };        
+        const {data} = await axios.post('https://api.escuelajs.co/api/v1/categories/', values);
+               
+        toast.success('Category added successfully:');
+        // Reset the form if needed
+        setCategoryname('');
+        setBrandname('');
+        setDescription('');
+      } catch (error) {       
+        toast.error('Error adding category:');
+      }
     }
   };
 
