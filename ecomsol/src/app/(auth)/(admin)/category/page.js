@@ -17,7 +17,7 @@ const CategoriesDataTable = () => {
   // Fetch categories data when the component mounts
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('https://api.escuelajs.co/api/v1/categories');
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/categories`);
       setCategories(response.data);
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -41,7 +41,7 @@ const CategoriesDataTable = () => {
 
   const handleEdit = async (id) => {
     try {
-      const { data } = await axios.put(`https://api.escuelajs.co/api/v1/categories/${id}`);
+      const { data } = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/categories/${id}`);
       toast.success('Category updated successfully');
     } catch (error) {
       console.error('Error updating category:', error);
@@ -54,7 +54,7 @@ const CategoriesDataTable = () => {
   const handleDelete = async (id) => {
     try {    
       debugger  
-      await axios.delete(`https://api.escuelajs.co/api/v1/categories/${id}`);
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/categories/${id}`);
       toast.success('Category deleted successfully');
       fetchCategories(); // Refresh categories after deletion
     } catch (error) {
@@ -68,7 +68,7 @@ const CategoriesDataTable = () => {
 
   const handleView = async (id) => {
     try {
-      const { data } = await axios.get(`https://api.escuelajs.co/api/v1/categories/${id}`);
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/categories/${id}`);
       console.log('Category details:', data);     
     } catch (error) {
       console.error('Error viewing category:', error);

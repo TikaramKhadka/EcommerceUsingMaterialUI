@@ -55,13 +55,8 @@ const AddCategory = () => {
     if (!categorynameError && !brandnameError && !descriptionError) {
       try {
         debugger
-         const values = {
-          name: categoryname,
-          brandname:brandname,
-          description:description,         
-        };        
-        const {data} = await axios.post('https://api.escuelajs.co/api/v1/categories/', values);
-               
+         const PostData = {values};        
+        const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/categories/`, PostData);
         toast.success('Category added successfully:');
         // Reset the form if needed
         setCategoryname('');

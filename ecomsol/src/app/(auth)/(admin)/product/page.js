@@ -29,7 +29,7 @@ const ProductDataTable = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('https://api.escuelajs.co/api/v1/products');
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products`);
       setProduct(response.data); // Set the data array
     } catch (error) {
       console.error('Error fetching products:', error);
