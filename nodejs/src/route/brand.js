@@ -4,18 +4,18 @@ const { getAllBrand, getBrandById, registerBrand, updateBrandById, deleteBrandBy
 
 const BrandRoute = Router();
 
-// get all categories
+// get all brands
 BrandRoute.get('/brand', getAllBrand);
 
-// get Category by ID
-CategoryRoute.get('/category/:id', getBrandById);
+// get brand by ID
+BrandRoute.get('/brand/:id', getBrandById);
 
-// register a new category
-CategoryRoute.post('/registercategory', registerBrand);
+// register a new brand
+BrandRoute.post('/registerbrand', registerBrand);
 
-// update a category
-CategoryRoute.put('/category/:id', updateBrandById);
-// delete category by id
-CategoryRoute.delete('/category/:id', deleteBrandById)
+// update a brand
+BrandRoute.put('/brand/:id', updateBrandById);
+// delete brand by id
+BrandRoute.delete('/brand/:id', deleteBrandById)
 
 module.exports = BrandRoute;

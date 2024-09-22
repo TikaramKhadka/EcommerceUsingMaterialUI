@@ -10,16 +10,16 @@ const getAllBrand = async (req, res) => {
     }
 }
 
-// get category by Id
+// get brand by Id
 const getBrandById = async (req, res) => {
     try {
         const data = await Brand.findById(req.params.id);
         if (!data) {
-            return res.status(404).send({ msg: `${req.params.id} Category not found` });
+            return res.status(404).send({ msg: `${req.params.id} brand not found` });
         }
         res.status(200).send(data);
     } catch (error) {
-        res.status(500).send({ msg: "Error fetching category", error });
+        res.status(500).send({ msg: "Error fetching brand", error });
     }
 }
 
