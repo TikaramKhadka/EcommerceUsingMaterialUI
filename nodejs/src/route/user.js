@@ -1,7 +1,6 @@
 const { Router } = require('express');
 const UserRoute = Router();
 const bcrypt = require('bcrypt')
-const User = require('../models/user')
 const {getAllUser, registerUser, getUserById,loginUser, updateUserById, deleteUserById} = require('../controllers/user')
 
 

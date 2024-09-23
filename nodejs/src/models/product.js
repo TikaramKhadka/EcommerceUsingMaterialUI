@@ -12,6 +12,6 @@ const Product = mongoose.model('Product', {
     modifiedDate:Date,
     modifiedBy:Date,
     isActive: Boolean
-});
+})
 
 module.exports = Product;
