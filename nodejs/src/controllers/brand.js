@@ -4,9 +4,9 @@ const Brand = require('../models/brand')
 const getAllBrand = async (req, res) => {
     try {
         const data = await Brand.find();
-        res.status(200).send(data);
+        res.sendStatus(200).send(data);
     } catch (error) {
-        res.status(404).send({ msg: "Data not found", error });
+        res.sendStatus(404).send({ msg: "Data not found", error });
     }
 }
 
@@ -15,11 +15,11 @@ const getBrandById = async (req, res) => {
     try {
         const data = await Brand.findById(req.params.id);
         if (!data) {
-            return res.status(404).send({ msg: `${req.params.id} brand not found` });
+            return res.sendStatus(404).send({ msg: `${req.params.id} brand not found` });
         }
-        res.status(200).send(data);
+        res.sendStatus(200).send(data);
     } catch (error) {
-        res.status(500).send({ msg: "Error fetching brand", error });
+        res.sendStatus(500).send({ msg: "Error fetching brand", error });
     }
 }
 
@@ -28,12 +28,12 @@ const registerBrand = async (req, res) => {
     try {
         const brandExist = await Brand.exists({ brandName: req.body.brandName });
         if (brandExist) {
-            return res.status(404).send({ msg: "brand already exists" });
+            return res.sendStatus(404).send({ msg: "brand already exists" });
         }
         const newBrand = await Brand.create(req.body);
-        res.status(201).send({ msg: "Brand added successfully", newBrand });
+        res.sendStatus(201).send({ msg: "Brand added successfully", newBrand });
     } catch (error) {
-        res.status(500).send({ msg: 'Error registering brand'});
+        res.sendStatus(500).send({ msg: 'Error registering brand'});
     }
 }
 
@@ -42,11 +42,11 @@ const updateBrandById = async (req, res) => {
     try {
         const data = await Category.findByIdAndUpdate(req.params.id, req.body);
         if (!data) {
-            return res.status(404).send({ msg: 'brand not found' });
+            return res.sendStatus(404).send({ msg: 'brand not found' });
         }
-        res.status(201).send({ msg: `${req.params.id} brand updated successfully`, data });
+        res.sendStatus(201).send({ msg: `${req.params.id} brand updated successfully`, data });
     } catch (error) {
-        res.status(500).send({ msg: 'Error updating brand'});
+        res.sendStatus(500).send({ msg: 'Error updating brand'});
     }
 }
 // delete brand by id
@@ -54,11 +54,11 @@ const deleteBrandById = async (req,res)=>{
     try {
         var data = category.findByIdAndDelete(req.params.id)  
         if (!data) {
-            return res.status(404).send({ msg: `${req.params.id} brand not found` });            
+            return res.sendStatus(404).send({ msg: `${req.params.id} brand not found` });            
         }  
-        res.status(201).send({ msg: `${req.params.id} brand deleted successfully` });
+        res.sendStatus(201).send({ msg: `${req.params.id} brand deleted successfully` });
     } catch (error) {
-        res.status(500).send({ msg: "Error deleting brand"});
+        res.sendStatus(500).send({ msg: "Error deleting brand"});
     }
    
 }

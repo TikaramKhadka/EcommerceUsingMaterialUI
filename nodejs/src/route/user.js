@@ -10,7 +10,7 @@ UserRoute.get('/users', getAllUser);
 // Get a user by ID
 UserRoute.get('/users/:id', getUserById);
 // Register a new user
-UserRoute.post('/register', registerUser);
+UserRoute.post('/registeruser', registerUser);
 // login user
 UserRoute.post('/login', loginUser);
 // Update a user

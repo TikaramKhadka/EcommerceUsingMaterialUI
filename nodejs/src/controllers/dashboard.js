@@ -38,9 +38,9 @@ const getCategoryCount = async (req, res) => {
 const getBrandCount = async (req, res) => {
     try {
         const data = await Brand.countDocuments();
-        res.status(200).send(data);
+        res.sendStatus(200).send(data);
     } catch (error) {
-        res.status(404).send({ msg: "Data not found", error });
+        res.sendStatus(404).send({ msg: "Data not found", error });
     }
 };
 
