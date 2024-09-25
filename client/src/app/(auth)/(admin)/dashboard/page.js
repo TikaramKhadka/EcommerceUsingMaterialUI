@@ -1,11 +1,12 @@
 'use client';
 import React from 'react';
-import { Box, Card, CardContent, Typography, Grid, Avatar } from '@mui/material';
+import { Box } from '@mui/material';
 import ChartView from './chart/page';
 import SummaryData from './summarydata/page';
 
 const Dashboard = () => {
   return (  
+    <div className='m-auto'>  
     <Box>
       <Box> {/* Reduced margin to avoid large gap */}
         <SummaryData/>
@@ -14,6 +15,7 @@ const Dashboard = () => {
         <ChartView />
       </Box>
     </Box>
+    </div>
   );
 };
 

@@ -12,6 +12,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import FileCopyIcon from '@mui/icons-material/FileCopy'; // Import FileCopyIcon
 import Link from 'next/link'; // Import Link from Next.js
+import ApartmentRoundedIcon from '@mui/icons-material/ApartmentRounded';
 
 const Sidebar = () => {
   const [openReports, setOpenReports] = useState(false);
@@ -22,7 +23,7 @@ const Sidebar = () => {
   };
 
   const handleCollapseClick = () => {
-    setCollapsed(!collapsed);
+    setCollapsed();
   };
 
   return (
@@ -32,27 +33,21 @@ const Sidebar = () => {
     >
       <div className="p-4 font-bold text-xl border-b border-gray-200 flex items-center">
         {/* Dashboard Item with Collapse Icon */}
-        <ListItem button onClick={handleCollapseClick} className="hover:bg-gray-100">
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
+        <ListItem className="hover:bg-gray-10 text-center">        
           <Link href="/dashboard" dashHref>
           <ListItemText primary="Dashboard" />
-          </Link>          
-          <IconButton
-            className={`ml-auto ${collapsed ? 'bg-blue-500 text-white' : 'bg-blue-100'} p-1`}
-          >
-            <ChevronLeftIcon
-              style={{
-                transform: collapsed ? 'rotate(180deg)' : 'rotate(0deg)',
-                transition: 'transform 0.3s',
-              }}
-            />
-          </IconButton>
+          </Link> 
         </ListItem>
       </div>
-
       <List>
+      <ListItem button className="hover:bg-gray-100">
+          <ListItemIcon>
+            <ApartmentRoundedIcon  />
+          </ListItemIcon>
+          <Link href="/brand" passHref>
+            <ListItemText primary="Brand" />
+          </Link>
+        </ListItem>
         <ListItem button className="hover:bg-gray-100">
           <ListItemIcon>
             <CategoryIcon />
@@ -130,7 +125,7 @@ const Sidebar = () => {
 
       <Divider />
     </div>
-  );
+  )
 };
 
 export default Sidebar;

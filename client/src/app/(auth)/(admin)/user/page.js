@@ -17,7 +17,8 @@ const UserDataTable = () => {
   // Fetch users data when the component mounts
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('https://api.escuelajs.co/api/v1/users');
+      debugger;
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`);
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -98,6 +99,7 @@ const UserDataTable = () => {
             <TableRow style={{ backgroundColor: '#1976d2' }}>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>SN</TableCell>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>User Name</TableCell>
+              <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Phone Number</TableCell>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Status</TableCell>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Created Date</TableCell>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Action</TableCell>
@@ -107,7 +109,8 @@ const UserDataTable = () => {
             {users.map((item, index) => (
               <TableRow key={item.id}>
                 <TableCell>{index + 1}</TableCell>
-                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.fullName}</TableCell>
+                <TableCell>{item.phoneNumber}</TableCell>
                 <TableCell>Active</TableCell>
                 <TableCell>{new Date().toLocaleDateString()}</TableCell>
                 <TableCell>

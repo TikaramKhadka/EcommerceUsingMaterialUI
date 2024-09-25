@@ -1,8 +1,9 @@
+'use client'
 import React from 'react'
 import { Provider } from 'react-redux'
 import store from './store'
 
-const reduxProvider = ({children}) => {
+const ReduxProvider = ({children}) => {
   return (
     <Provider store={store}>
         {children}
@@ -10,4 +11,4 @@ const reduxProvider = ({children}) => {
   )
 }
 
-export default reduxProvider
+export default ReduxProvider

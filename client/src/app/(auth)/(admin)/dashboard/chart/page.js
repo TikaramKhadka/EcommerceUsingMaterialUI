@@ -15,9 +15,9 @@ const lineChartData = [
 
 const Dashboard = () => {
   return (
-    <Box sx={{ flexGrow: 1, p: 3 }}>
+    <Box sx={{ flexGrow: 1 }}>
       {/* Card View Section (As from previous code) */}
-      <Grid container spacing={3} mb={5}>
+      <Grid container spacing={1} mb={5}>
         {/* Place your card content here */}
       </Grid>
 

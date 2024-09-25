@@ -87,6 +87,7 @@ const ProductDataTable = () => {
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>SN</TableCell>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Product Name</TableCell>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Price</TableCell>
+              <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Quantity</TableCell>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Status</TableCell>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Action</TableCell>
             </TableRow>
@@ -95,8 +96,9 @@ const ProductDataTable = () => {
             {productlist.map((item, index) => (
               <TableRow key={item.id}>
                 <TableCell>{index + 1}</TableCell>
-                <TableCell>{item.title}</TableCell>
+                <TableCell>{item.productName}</TableCell>
                 <TableCell>{item.price}</TableCell>
+                <TableCell>{item.quantity}</TableCell>
                 <TableCell>Active</TableCell>
                 <TableCell>
                   <IconButton onClick={(event) => handleClick(event, item)}>

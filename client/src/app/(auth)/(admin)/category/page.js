@@ -21,7 +21,8 @@ const CategoriesDataTable = () => {
   // Fetch categories data when the component mounts
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/categories`);
+      debugger;
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/category`);
       console.log(response.data);
       setCategories(response.data);
     } catch (error) {
@@ -102,7 +103,7 @@ const CategoriesDataTable = () => {
           <TableHead>
             <TableRow style={{ backgroundColor: '#1976d2' }}>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>SN</TableCell>
-              <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Category Title</TableCell>
+              <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Category Name</TableCell>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Action</TableCell>
             </TableRow>
           </TableHead>
@@ -110,7 +111,7 @@ const CategoriesDataTable = () => {
             {categories.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
               <TableRow key={item.id}>
                 <TableCell>{page * rowsPerPage + index + 1}</TableCell>
-                <TableCell>{item.name}</TableCell> {/* Changed to title */}
+                <TableCell>{item.categoryName}</TableCell> {/* Changed to title */}
                 <TableCell>
                   {/* Edit Icon */}
                   <IconButton onClick={() => handleEditCategory(item)}>

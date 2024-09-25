@@ -11,22 +11,22 @@ const AddCategory = ({ isOpen, onClose, initialValues, isEditMode, fetchCategori
   const formik = useFormik({
     enableReinitialize: true, // Allows Formik to update when initialValues change
     initialValues: initialValues || {
-      name: '',
-      brandname: '',
+      categoryName: '',
+      brandName: '',
       description: '',
     },
     validationSchema: Yup.object({
-      name: Yup.string().required('Please enter category title'),
-      brandname: Yup.string().required('Please enter brand name'),
+      categoryName: Yup.string().required('Please enter category name'),
+      brandName: Yup.string().required('Please enter brand name'),
       description: Yup.string().required('Please enter description'),
     }),
-    validateOnChange: false, // Disable validation on change
-    validateOnBlur: false, // Disable validation on blur
+    validateOnChange: true, // Disable validation on change
+    validateOnBlur: true, // Disable validation on blur
     onSubmit: async (values, { resetForm, setTouched }) => {
       // Manually set all fields as touched
       setTouched({
-        name: true,
-        brandname: true,
+        categoryName: true,
+        brandName: false,
         description: true,
       });
 
@@ -35,12 +35,14 @@ const AddCategory = ({ isOpen, onClose, initialValues, isEditMode, fetchCategori
         if (Object.keys(errors).length === 0) { // No errors
           try {
             if (isEditMode) {
-              // Update existing category
-              await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/categories/${initialValues.id}`, values);
+              // Update existing category  
+              debugger
+              console.log(values)           
+              await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/category/${initialValues.id}`, values);
               toast.success('Category updated successfully');
             } else {
               // Add new category
-              await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/categories/`, values);
+              await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/regustercategory/`, values);
               toast.success('Category added successfully');
             }
             resetForm();
@@ -66,13 +68,13 @@ const AddCategory = ({ isOpen, onClose, initialValues, isEditMode, fetchCategori
             <Grid item xs={6}>
               <TextField
                 id="outlined-title"
-                label="Category Title"
+                label="Category Name"
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                {...formik.getFieldProps('name')}
-                error={formik.touched.name && Boolean(formik.errors.name)}
-                helperText={formik.touched.name && formik.errors.name}
+                {...formik.getFieldProps('categoryName')}
+                error={formik.touched.categoryName && Boolean(formik.errors.categoryName)}
+                helperText={formik.touched.categoryName && formik.errors.categoryName}
               />
             </Grid>
             <Grid item xs={6}>
@@ -82,9 +84,9 @@ const AddCategory = ({ isOpen, onClose, initialValues, isEditMode, fetchCategori
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                {...formik.getFieldProps('brandname')}
-                error={formik.touched.brandname && Boolean(formik.errors.brandname)}
-                helperText={formik.touched.brandname && formik.errors.brandname}
+                {...formik.getFieldProps('brandName')}
+                error={formik.touched.brandName && Boolean(formik.errors.brandName)}
+                helperText={formik.touched.brandName && formik.errors.brandName}
               />
             </Grid>
             <Grid item xs={12}>
