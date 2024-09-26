@@ -9,21 +9,18 @@ import axios from 'axios';
 import AddCategory from './addcategory/page';
 
 const CategoriesDataTable = () => {
-  const [categories, setCategories] = useState([]); // To store category data
-  const [isModalOpen, setIsModalOpen] = useState(false); // For opening Add/Edit modal
-  const [editData, setEditData] = useState(null); // For storing the category data in edit mode
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false); // For delete confirmation dialog
-  const [categoryToDelete, setCategoryToDelete] = useState(null); // For storing the category to be deleted
+  const [categories, setCategories] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editData, setEditData] = useState(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState(null);
+  
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const [page, setPage] = useState(0); // Pagination state
-  const [rowsPerPage, setRowsPerPage] = useState(5); // Default rows per page
-
-  // Fetch categories data when the component mounts
   const fetchCategories = async () => {
     try {
-      debugger;
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/category`);
-      console.log(response.data);
       setCategories(response.data);
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -32,59 +29,52 @@ const CategoriesDataTable = () => {
   };
 
   useEffect(() => {
-    fetchCategories(); // Fetch categories when the component loads
+    fetchCategories();
   }, []);
 
-  // Open the modal for adding a new category
   const handleAddCategory = () => {
-    setEditData(null); // No data for add mode
+    setEditData(null);
     setIsModalOpen(true);
   };
 
-  // Open the modal for editing a category
   const handleEditCategory = (category) => {
-    setEditData(category); // Pass selected category data to edit mode
+    setEditData(category);
     setIsModalOpen(true);
   };
 
-  // Close the modal
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
-  // Open the delete confirmation dialog
   const handleDeleteCategoryClick = (categoryId) => {
-    setCategoryToDelete(categoryId); // Store the category to delete
-    setDeleteDialogOpen(true); // Open the dialog
+    setCategoryToDelete(categoryId);
+    setDeleteDialogOpen(true);
   };
 
-  // Confirm the deletion
   const confirmDeleteCategory = async () => {
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/categories/${categoryToDelete}`);
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/category/${categoryToDelete}`);
       toast.success('Category deleted successfully');
-      setDeleteDialogOpen(false); // Close the dialog
-      fetchCategories(); // Refresh the category list after deletion
+      setDeleteDialogOpen(false); 
+      fetchCategories(); 
     } catch (error) {
+      console.error('Error deleting category:', error.response ? error.response.data : error.message);
       toast.error('Error deleting category');
     }
   };
 
-  // Close the delete confirmation dialog
   const closeDeleteDialog = () => {
     setDeleteDialogOpen(false);
     setCategoryToDelete(null);
   };
 
-  // Handle pagination page change
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-  // Handle rows per page change
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0); // Reset to the first page when changing rows per page
+    setPage(0);
   };
 
   return (
@@ -109,16 +99,14 @@ const CategoriesDataTable = () => {
           </TableHead>
           <TableBody>
             {categories.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
-              <TableRow key={item.id}>
+              <TableRow key={item._id}>
                 <TableCell>{page * rowsPerPage + index + 1}</TableCell>
-                <TableCell>{item.categoryName}</TableCell> {/* Changed to title */}
+                <TableCell>{item.categoryName}</TableCell>
                 <TableCell>
-                  {/* Edit Icon */}
                   <IconButton onClick={() => handleEditCategory(item)}>
                     <EditIcon />
                   </IconButton>
-                  {/* Delete Icon */}
-                  <IconButton onClick={() => handleDeleteCategoryClick(item.id)}>
+                  <IconButton onClick={() => handleDeleteCategoryClick(item._id)}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -131,21 +119,22 @@ const CategoriesDataTable = () => {
         <Box display="flex" justifyContent="space-between" alignItems="center" padding={2}>
           {/* Rows per page on the left */}
           <TablePagination
-            component="div"
-            count={categories.length}
-            page={page}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            rowsPerPageOptions={[5, 10, 20]}
-            labelRowsPerPage="Rows per page:"
-            showFirstButton
-            showLastButton
-            sx={{ display: 'inline-flex', alignItems: 'center' }}
-          />
+    component="div"
+    count={categories.length}
+    rowsPerPage={rowsPerPage}
+    onRowsPerPageChange={handleChangeRowsPerPage}
+    rowsPerPageOptions={[5, 10, 20]}
+    labelRowsPerPage="Rows per page:"
+    showFirstButton={false}  // Hide the first page button
+    showLastButton={false}    // Hide the last page button
+    nextIconButtonProps={{ style: { display: 'none' } }} // Hide next button
+    backIconButtonProps={{ style: { display: 'none' } }} // Hide previous button
+    labelDisplayedRows={() => null} // Hide the row display text
+    sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}
+  />
 
           {/* Pagination buttons (previous, next) on the right */}
-          <Box>
+          <Box display="flex" alignItems="center">
             <Button onClick={(e) => handleChangePage(e, page - 1)} disabled={page === 0}>
               Previous
             </Button>
@@ -154,6 +143,7 @@ const CategoriesDataTable = () => {
                 key={i}
                 onClick={(e) => handleChangePage(e, i)}
                 variant={page === i ? 'contained' : 'outlined'}
+                sx={{ marginX: 0.5 }} 
               >
                 {i + 1}
               </Button>
@@ -170,8 +160,8 @@ const CategoriesDataTable = () => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         initialValues={editData}
-        isEditMode={!!editData} // true if there's editData
-        fetchCategories={fetchCategories} // Pass down the refetch method
+        isEditMode={!!editData}
+        fetchCategories={fetchCategories}
       />
 
       {/* Delete Confirmation Dialog */}

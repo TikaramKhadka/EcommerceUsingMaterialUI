@@ -20,42 +20,34 @@ const AddCategory = ({ isOpen, onClose, initialValues, isEditMode, fetchCategori
       brandName: Yup.string().required('Please enter brand name'),
       description: Yup.string().required('Please enter description'),
     }),
-    validateOnChange: true, // Disable validation on change
-    validateOnBlur: true, // Disable validation on blur
-    onSubmit: async (values, { resetForm, setTouched }) => {
-      // Manually set all fields as touched
-      setTouched({
-        categoryName: true,
-        brandName: false,
-        description: true,
-      });
-
-      // Trigger validation
-      formik.validateForm().then(async (errors) => {
-        if (Object.keys(errors).length === 0) { // No errors
-          try {
-            if (isEditMode) {
-              // Update existing category  
-              debugger
-              console.log(values)           
-              await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/category/${initialValues.id}`, values);
-              toast.success('Category updated successfully');
-            } else {
-              // Add new category
-              await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/regustercategory/`, values);
-              toast.success('Category added successfully');
-            }
-            resetForm();
-            fetchCategories(); // Refresh categories list
-            onClose(); // Close the modal after submission
-          } catch (error) {
-            toast.error('Error submitting category');
-          }
+    validateOnChange: false, // Optional: Disable validation on change
+    validateOnBlur: true, // Optional: Validate on blur
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        debugger;
+        console.log(initialValues._id)
+        if (isEditMode && initialValues._id) { // Check if initialValues.id exists
+          // Update existing category using PUT request
+          await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/category/${initialValues._id}`, {
+            categoryName: values.categoryName,
+            brandName: values.brandName,
+            description: values.description,
+          });
+          toast.success('Category updated successfully');
+        } else if (!isEditMode) {
+          // Add new category using POST request
+          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/registercategory`, values);
+          toast.success('Category added successfully');
         } else {
-          // Set form errors manually if any
-          formik.setErrors(errors);
+          toast.error('Invalid category ID');
         }
-      });
+        resetForm(); // Clear form fields
+        fetchCategories(); // Refresh categories list after submission
+        onClose(); // Close the modal after submission
+      } catch (error) {
+        toast.error('Error submitting category');
+        console.error('Error:', error); // Helpful for debugging
+      }
     },
   });
 
@@ -67,7 +59,7 @@ const AddCategory = ({ isOpen, onClose, initialValues, isEditMode, fetchCategori
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <TextField
-                id="outlined-title"
+                id="categoryName"
                 label="Category Name"
                 variant="outlined"
                 fullWidth
@@ -79,7 +71,7 @@ const AddCategory = ({ isOpen, onClose, initialValues, isEditMode, fetchCategori
             </Grid>
             <Grid item xs={6}>
               <TextField
-                id="outlined-brand"
+                id="brandName"
                 label="Brand Name"
                 variant="outlined"
                 fullWidth
@@ -91,7 +83,7 @@ const AddCategory = ({ isOpen, onClose, initialValues, isEditMode, fetchCategori
             </Grid>
             <Grid item xs={12}>
               <TextField
-                id="outlined-description"
+                id="description"
                 label="Description"
                 variant="outlined"
                 fullWidth
