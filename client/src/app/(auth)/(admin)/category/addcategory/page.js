@@ -24,8 +24,6 @@ const AddCategory = ({ isOpen, onClose, initialValues, isEditMode, fetchCategori
     validateOnBlur: true, // Optional: Validate on blur
     onSubmit: async (values, { resetForm }) => {
       try {
-        debugger;
-        console.log(initialValues._id)
         if (isEditMode && initialValues._id) { // Check if initialValues.id exists
           // Update existing category using PUT request
           await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/category/${initialValues._id}`, {

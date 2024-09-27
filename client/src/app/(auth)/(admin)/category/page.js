@@ -94,14 +94,16 @@ const CategoriesDataTable = () => {
             <TableRow style={{ backgroundColor: '#1976d2' }}>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>SN</TableCell>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Category Name</TableCell>
+              <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Created By</TableCell>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {categories.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
               <TableRow key={item._id}>
-                <TableCell>{page * rowsPerPage + index + 1}</TableCell>
+                <TableCell>{page * rowsPerPage + index + 1}</TableCell>             
                 <TableCell>{item.categoryName}</TableCell>
+              <TableCell TableCell>admin</TableCell>
                 <TableCell>
                   <IconButton onClick={() => handleEditCategory(item)}>
                     <EditIcon />
