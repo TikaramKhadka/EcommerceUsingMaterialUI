@@ -51,7 +51,7 @@ const AddCategory = ({ isOpen, onClose, initialValues, isEditMode, fetchCategori
 
   return (
     <Dialog open={isOpen} onClose={onClose} fullWidth>
-      <DialogTitle>{isEditMode ? 'Edit Category' : 'Add Category'}</DialogTitle>
+      <DialogTitle className='font-bold'>{isEditMode ? 'Edit Category' : 'Add Category'}</DialogTitle>
       <form onSubmit={formik.handleSubmit}>
         <DialogContent>
           <Grid container spacing={2}>

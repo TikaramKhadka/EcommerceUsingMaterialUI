@@ -28,7 +28,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`fixed bg-white text-black h-screen border shadow-md transition-all duration-300 ${collapsed ? 'w-16' : 'w-1/5'}`}
+      className={`fixed bg-white text-black h-screen border shadow-md transition-all duration-300 ${collapsed ? 'w-16' : 'w-1/6'}`}
       style={{ top: '60px' }} // Adjust the top position to start below the navbar
     >
       <div className="p-4 font-bold text-xl border-b border-gray-200 flex items-center">

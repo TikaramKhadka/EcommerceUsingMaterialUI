@@ -4,6 +4,8 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import CategoryIcon from '@mui/icons-material/Category';
+import PeopleIcon from '@mui/icons-material/People';
+import ApartmentRoundedIcon from '@mui/icons-material/ApartmentRounded';
 import { Avatar, Card, CardContent, Grid, Typography } from '@mui/material';
 
 const SummaryData = () => {
@@ -11,7 +13,7 @@ const SummaryData = () => {
   const data = [
     {
       title: 'Sales',
-      count: 'Rs 12,0000',
+      count: '12 K',
       icon: <AttachMoneyIcon />,
       color: '#4caf50',
     },
@@ -20,6 +22,12 @@ const SummaryData = () => {
       count: '850',
       icon: <ShoppingCartIcon/>,
       color: '#2196f3',
+    },
+    {
+      title: 'Brand',
+      count: '12',
+      icon: <ApartmentRoundedIcon/>,
+      color: '#f44336',
     },
     {
       title: 'Products',
@@ -32,14 +40,20 @@ const SummaryData = () => {
       count: '12',
       icon: <CategoryIcon />,
       color: '#f44336',
+    },
+    {
+      title: 'Users',
+      count: '12',
+      icon: <PeopleIcon/>,
+      color: '#f44336',
     }
   ];
   return (   
     <Grid container spacing={4}>
       {data.map((item, index) => (
-        <Grid item xs={12} sm={6} md={3} key={index}>
+        <Grid item xs={12} sm={6} md={4} xl={2} key={index} >
           <Card sx={{ display: 'flex', alignItems: 'center', padding: 1, boxShadow: 3 }}>
-            <Avatar sx={{ backgroundColor: item.color, marginRight: 2, marginLeft:2 }}>
+            <Avatar sx={{ backgroundColor: item.color, marginRight: 1, marginLeft:1 }}>
               {item.icon}
             </Avatar>
             <CardContent>

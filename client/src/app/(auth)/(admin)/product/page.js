@@ -73,7 +73,7 @@ const ProductDataTable = () => {
         </Typography>
         <Button
           variant="contained"
-          color="primary" // You can change the button color if needed, but 'primary' matches MUI's theme
+          color="primary" 
           startIcon={<AddIcon />} // Use the Add icon here
         >
           Add Product
@@ -83,7 +83,7 @@ const ProductDataTable = () => {
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
-            <TableRow style={{ backgroundColor: '#1976d2' }}> {/* Use the primary color for the background */}
+            <TableRow style={{ backgroundColor: '#1976d2' }}> 
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>SN</TableCell>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Product Name</TableCell>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Price</TableCell>
@@ -102,7 +102,7 @@ const ProductDataTable = () => {
                 <TableCell>Active</TableCell>
                 <TableCell>
                   <IconButton onClick={(event) => handleClick(event, item)}>
-                    <MoreVertIcon /> {/* Use the MoreVert icon here */}
+                    <MoreVertIcon /> 
                   </IconButton>
                   <Menu className='shadow-sm'
                     anchorEl={anchorEl}
