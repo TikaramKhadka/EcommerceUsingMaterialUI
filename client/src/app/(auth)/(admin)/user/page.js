@@ -1,23 +1,45 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Box, Typography, IconButton, Menu, MenuItem, Link } from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import {
+  Box,
+  Button,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TablePagination,
+  TextField,
+} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import axios from 'axios';
 import toast from 'react-hot-toast';
+import axios from 'axios';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import AddSystemUser from './adduser/page';
 
-const UserDataTable = () => {
+const UsersDataTable = () => {
   const [users, setUsers] = useState([]);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedId, setSelectedId] = useState(null); // Track the selected category
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editData, setEditData] = useState(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [usersToDelete, setUsersToDelete] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(''); // Search term state
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  // Fetch users data when the component mounts
   const fetchUsers = async () => {
     try {
-      debugger;
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`);
       setUsers(response.data);
     } catch (error) {
@@ -30,67 +52,78 @@ const UserDataTable = () => {
     fetchUsers();
   }, []);
 
-  const handleClick = (event, id) => {
-    setAnchorEl(event.currentTarget);
-    setSelectedId(id); // Set the selected category ID
+  const handleAddUsers = () => {
+    setEditData(null);
+    setIsModalOpen(true);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-    setSelectedId(null); // Clear selected category when menu closes
+  const handleEditUsers = (users) => {
+    setEditData(users);
+    setIsModalOpen(true);
   };
 
-  const handleEdit = async (id) => {
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleDeleteUsers = (userId) => {
+    setUsersToDelete(userId);
+    setDeleteDialogOpen(true);
+  };
+  const handleViewUsers = (userId) => {
+    setUsersToDelete(userId);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDeleteUsers = async () => {
     try {
-      const { data } = await axios.put(`https://api.escuelajs.co/api/v1/users/${id}`);
-      toast.success('User updated successfully');
-    } catch (error) {
-      console.error('Error updating users:', error);
-      toast.error('Failed to update users');
-    } finally {
-      fetchUsers();
-      handleClose();
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {    
-      debugger  
-      await axios.delete(`https://api.escuelajs.co/api/v1/users/${id}`);
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/users/${usersToDelete}`);
       toast.success('User deleted successfully');
-      fetchUsers(); // Refresh users after deletion
-    } catch (error) {
-      console.error('Error deleting users:', error);
-      toast.error('Failed to delete users');
-    } finally {      
+      setDeleteDialogOpen(false);
       fetchUsers();
-      handleClose();
+    } catch (error) {
+      console.error('Error deleting users:', error.response ? error.response.data : error.message);
+      toast.error('Error deleting users');
     }
   };
 
-  const handleView = async (id) => {
-    try {
-      const { data } = await axios.get(`https://api.escuelajs.co/api/v1/users/${id}`);
-      console.log('User details:', data);     
-    } catch (error) {
-      console.error('Error viewing users:', error);
-      toast.error('Failed to view users');
-    } finally {
-      fetchUsers()
-      handleClose();
-    }
+  const closeDeleteDialog = () => {
+    setDeleteDialogOpen(false);
+    setUsersToDelete(null);
   };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  // Filter users based on search term
+  const filteredUsers = users.filter((users) =>
+    users.fullName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={3} mt={2}>
         <Typography className="font-bold" variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          User List
+          Users List
         </Typography>
-        <Link href="/category/addcategory" underline="none">
-          <Button variant="contained" color="primary" startIcon={<AddIcon />}>
-            Add User
-          </Button>
-        </Link>
+        {/* Search Bar */}
+        <TextField
+          label="Search User"
+          variant="outlined"
+          size="small"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          sx={{ marginRight: 2 }} // Adjust space
+        />
+        <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleAddUsers}>
+          Add User
+        </Button>
       </Box>
 
       <TableContainer component={Paper}>
@@ -98,54 +131,108 @@ const UserDataTable = () => {
           <TableHead>
             <TableRow style={{ backgroundColor: '#1976d2' }}>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>SN</TableCell>
-              <TableCell style={{ color: 'white', fontWeight: 'bold' }}>User Name</TableCell>
-              <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Phone Number</TableCell>
-              <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Status</TableCell>
-              <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Created Date</TableCell>
+              <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Image</TableCell>
+              <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Full Name</TableCell>
+              <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Created By</TableCell>
               <TableCell style={{ color: 'white', fontWeight: 'bold' }}>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.map((item, index) => (
-              <TableRow key={item.id}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{item.fullName}</TableCell>
-                <TableCell>{item.phoneNumber}</TableCell>
-                <TableCell>Active</TableCell>
-                <TableCell>{new Date().toLocaleDateString()}</TableCell>
+            {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
+              <TableRow key={item._id}>
+                <TableCell>{page * rowsPerPage + index + 1}</TableCell>
+                <TableCell>Image</TableCell>
+                <TableCell>{item.fullName}</TableCell>              
+                <TableCell>admin</TableCell>
                 <TableCell>
-                  <IconButton onClick={(event) => handleClick(event, item.id)}>
-                    <MoreVertIcon />
+                  <IconButton onClick={() => handleEditUsers(item)}>
+                    <EditIcon sx={{ color: '#1976d2' }}/>
                   </IconButton>
-                  <Menu
-                    className="shadow-sm"
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl && selectedId === item.id)}
-                    onClose={handleClose}
-                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-                    transformOrigin={{ vertical: 'top', horizontal: 'center' }}
-                  >
-                    <MenuItem onClick={() => handleView(item.id)}>
-                      <VisibilityIcon fontSize="small" style={{ marginRight: '10px' }} />
-                      View
-                    </MenuItem>
-                    <MenuItem onClick={() => handleEdit(item.id)}>
-                      <EditIcon fontSize="small" style={{ marginRight: '10px' }} />
-                      Update
-                    </MenuItem>
-                    <MenuItem onClick={() => handleDelete(item.id)}>
-                      <DeleteIcon fontSize="small" style={{ marginRight: '10px' }} />
-                      Delete
-                    </MenuItem>
-                  </Menu>
+                  <IconButton onClick={() => handleDeleteUsers(item._id)}>
+                    <DeleteIcon  sx={{ color: 'red' }}/>
+                  </IconButton>
+                  <IconButton onClick={() => handleViewUsers(item._id)}>
+                    <VisibilityIcon  sx={{ color: '#1976d2' }}/>
+                  </IconButton>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+        <Box display="flex" justifyContent="space-between" alignItems="center" padding={2}>
+         {/* Custom Pagination */}
+        <Box display="flex" justifyContent="space-between" alignItems="center" padding={2}>
+          {/* Rows per page on the left */}
+          <TablePagination
+            component="div"
+            count={filteredUsers.length}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[5, 10, 20]}
+            labelRowsPerPage="Rows per page:"
+            showFirstButton={false}
+            showLastButton={false}
+            nextIconButtonProps={{ style: { display: 'none' } }} 
+            backIconButtonProps={{ style: { display: 'none' } }} 
+            labelDisplayedRows={() => null} 
+            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}
+          />
+           {/* Total number of users */}           
+          <Typography variant="body2" sx={{ marginLeft: 2 }}>
+            Total records: {users.length}
+          </Typography>
+          </Box>
+   
+          {/* Pagination buttons */}
+          <Box display="flex" alignItems="center">
+            <Button onClick={(e) => handleChangePage(e, page - 1)} disabled={page === 0}>
+              Previous
+            </Button>
+            {Array.from({ length: Math.ceil(filteredUsers.length / rowsPerPage) }, (_, i) => (
+              <Button
+                key={i}
+                onClick={(e) => handleChangePage(e, i)}
+                variant={page === i ? 'contained' : 'outlined'}
+                sx={{ marginX: 0.3}}
+              >
+                {i + 1}
+              </Button>
+            ))}
+            <Button onClick={(e) => handleChangePage(e, page + 1)} disabled={page >= Math.ceil(filteredUsers.length / rowsPerPage) - 1}>
+              Next
+            </Button>
+          </Box>
+        </Box>
       </TableContainer>
+
+      {/* Add User Modal for Add/Edit */}
+      <AddSystemUser
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        initialValues={editData}
+        isEditMode={!!editData}
+        fetchUsers={fetchUsers}
+      />
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleteDialogOpen} onClose={closeDeleteDialog}>
+        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this user?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeDeleteDialog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={confirmDeleteUsers} color="primary" autoFocus>
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
 
-export default UserDataTable;
+export default UsersDataTable;

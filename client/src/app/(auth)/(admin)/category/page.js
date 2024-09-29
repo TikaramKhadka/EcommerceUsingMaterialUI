@@ -40,7 +40,7 @@ const CategoriesDataTable = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/category`);
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/categories`);
       setCategories(response.data);
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -77,7 +77,7 @@ const CategoriesDataTable = () => {
 
   const confirmDeleteCategory = async () => {
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/category/${categoryToDelete}`);
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/categories/${categoryToDelete}`);
       toast.success('Category deleted successfully');
       setDeleteDialogOpen(false);
       fetchCategories();

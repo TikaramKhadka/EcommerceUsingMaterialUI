@@ -40,7 +40,7 @@ const BrandsDataTable = () => {
 
   const fetchBrands = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/brand`);
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/brands`);
       console.log(response.data); // Log the response to check its structure
       if (Array.isArray(response.data)) {
         setBrands(response.data);
@@ -80,7 +80,7 @@ const BrandsDataTable = () => {
 
   const confirmDeleteBrand = async () => {
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/brand/${brandToDelete}`);
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/brands/${brandToDelete}`);
       toast.success('Brand deleted successfully');
       setDeleteDialogOpen(false);
       fetchBrands();
