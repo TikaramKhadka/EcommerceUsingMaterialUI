@@ -3,13 +3,13 @@ const { getUserCount, getProductCount, getCategoryCount, getBrandCount}=require(
     const DashboardRoute = Router();
   
     // get product count
-    DashboardRoute.get('/productcount', getProductCount);
+    DashboardRoute.get('/productcounts', getProductCount);
     // get user count
-    DashboardRoute.get('/usercount', getUserCount);
+    DashboardRoute.get('/usercounts', getUserCount);
     // get category count
-    DashboardRoute.get('/categorycount', getCategoryCount);
+    DashboardRoute.get('/categorycounts', getCategoryCount);
     // get brand
-    DashboardRoute.post('/brandcount',getBrandCount);
+    DashboardRoute.post('/brandcounts',getBrandCount);
     // //get order count
     // DashboardRoute.put('/ordercount', getOrderCount) 
 

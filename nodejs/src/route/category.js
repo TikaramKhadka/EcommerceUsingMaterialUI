@@ -5,17 +5,17 @@ const {getAllCategory, getCategoryById, registerCategory, updateCategoryById,
 const CategoryRoute = Router();
 
 // get all categories
-CategoryRoute.get('/category', getAllCategory);
+CategoryRoute.get('/categories', getAllCategory);
 
 // get Category by ID
-CategoryRoute.get('/category/:id', getCategoryById);
+CategoryRoute.get('/categories/:id', getCategoryById);
 
 // register a new category
-CategoryRoute.post('/registercategory', registerCategory);
+CategoryRoute.post('/registercategories', registerCategory);
 
 // update a category
-CategoryRoute.put('/category/:id', updateCategoryById);
+CategoryRoute.put('/categories/:id', updateCategoryById);
 // delete category by id
-CategoryRoute.delete('/category/:id', deleteCategoryById)
+CategoryRoute.delete('/categories/:id', deleteCategoryById)
 
 module.exports = CategoryRoute;
