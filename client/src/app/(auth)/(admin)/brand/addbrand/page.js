@@ -6,17 +6,15 @@ import * as Yup from 'yup';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 
-const AddCategory = ({ isOpen, onClose, initialValues, isEditMode, fetchCategories }) => {
+const AddBrand = ({ isOpen, onClose, initialValues, isEditMode, fetchBrands }) => {
   // Formik setup with enableReinitialize to reinitialize form when initialValues change
   const formik = useFormik({
     enableReinitialize: true, // Allows Formik to update when initialValues change
     initialValues: initialValues || {
-      categoryName: '',
       brandName: '',
       description: '',
     },
     validationSchema: Yup.object({
-      categoryName: Yup.string().required('Please enter category name'),
       brandName: Yup.string().required('Please enter brand name'),
       description: Yup.string().required('Please enter description'),
     }),
@@ -25,26 +23,25 @@ const AddCategory = ({ isOpen, onClose, initialValues, isEditMode, fetchCategori
     onSubmit: async (values, { resetForm }) => {
       try {
         if (isEditMode && initialValues._id) { // Check if initialValues.id exists
-          // Update existing category using PUT request
-          await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/category/${initialValues._id}`, {
-            categoryName: values.categoryName,
+          // Update existing brand using PUT request
+          await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/brand/${initialValues._id}`, {
             brandName: values.brandName,
             description: values.description,
           });
-          toast.success('Category updated successfully');
+          toast.success('Brand updated successfully');
         } else if (!isEditMode) {
-          // Add new category using POST request
-          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/registercategory`, values);
-          toast.success('Category added successfully');
+          // Add new brand using POST request
+          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/registerbrand`, values);
+          toast.success('Brand added successfully');
         } else {
-          toast.error('Invalid category ID');
+          toast.error('Invalid brand ID');
         }
         resetForm(); // Clear form fields
-        fetchCategories(); // Refresh categories list after submission
+        fetchBrands(); // Refresh brands list after submission
         onClose(); // Close the modal after submission
       } catch (error) {
-        toast.error('Error submitting category');
-        console.error('Error:', error); // 
+        toast.error('Error submitting brand');
+        console.error('Error submitting brand', error); // Log error for debugging
       }
     },
   });
@@ -52,24 +49,12 @@ const AddCategory = ({ isOpen, onClose, initialValues, isEditMode, fetchCategori
   return (
     <Dialog open={isOpen} onClose={onClose} fullWidth>
       <DialogTitle className='font-bold'>
-        {isEditMode ? 'Edit Category' : 'Add Category'}
-        </DialogTitle>
+        {isEditMode ? 'Edit Brand' : 'Add Brand'}
+      </DialogTitle>
       <form onSubmit={formik.handleSubmit}>
         <DialogContent>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <TextField
-                id="categoryName"
-                label="Category Name"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                {...formik.getFieldProps('categoryName')}
-                error={formik.touched.categoryName && Boolean(formik.errors.categoryName)}
-                helperText={formik.touched.categoryName && formik.errors.categoryName}
-              />
-            </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <TextField
                 id="brandName"
                 label="Brand Name"
@@ -100,7 +85,7 @@ const AddCategory = ({ isOpen, onClose, initialValues, isEditMode, fetchCategori
         <DialogActions>
           <Button variant="outlined" onClick={onClose}>Cancel</Button>
           <Button variant="contained" type="submit">
-            {isEditMode ? 'Update Category' : 'Add Category'}
+            {isEditMode ? 'Update Brand' : 'Add Brand'}
           </Button>
         </DialogActions>
       </form>
@@ -108,4 +93,4 @@ const AddCategory = ({ isOpen, onClose, initialValues, isEditMode, fetchCategori
   );
 };
 
-export default AddCategory;
+export default AddBrand;
